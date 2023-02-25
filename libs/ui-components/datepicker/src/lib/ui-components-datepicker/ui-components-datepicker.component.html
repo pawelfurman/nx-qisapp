@@ -1,0 +1,91 @@
+<p>ui-components-datepicker works!</p>
+
+<ng-container *ngIf="vm$ | async as vm">
+
+
+    <div class="calendar">
+        <header>
+            <button (click)="changeMonthBy(-1)">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <span class="label">{{vm.labels.month}}</span>
+            <button (click)="changeMonthBy(1)">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        
+        </header>
+    
+        <div class="calendar-days">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>
+                            <span>Sun</span>
+                        </th>
+                        <th>
+                            <span>Mon</span>
+                        </th>
+                        <th>
+                            <span>Tue</span>
+                        </th>
+                        <th>
+                            <span>Wed</span>
+                        </th>
+                        <th>
+                            <span>Thu</span>
+                        </th>
+                        <th>
+                            <span>Fri</span>
+                        </th>
+                        <th>
+                            <span>Sat</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let week of vm.byWeeks; let i = index">
+                        <td class="week-index">
+                            <span>{{i+1}}</span>
+                        </td>
+                        <td *ngFor="let day of week">
+
+                            <div class="day" *ngIf="day.iso.length"
+                                [attr.from]="day.from || null"
+                                [attr.to]="day.to || null"
+                                [attr.active]="day.from || null" 
+                                [attr.between]="day.between || null"
+                            >
+                                <button
+                                    [disabled]="day.disabled"
+                                    [attr.selected]="day.from || day.to || null"
+
+                                    type="button" (click)="selectDate(day.iso)">
+                                    {{day.labels.day}}
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+        <footer>
+            <div class="selection">
+                <span>from&nbsp;</span>
+                <span *ngIf="vm.validSelection">{{vm.selectionFrom}}</span>
+                <span *ngIf="!vm.validSelection" class="not-selected">[not-selected]</span>
+            </div>
+            <div class="selection">
+                <span>to&nbsp;</span>
+                <span *ngIf="vm.validSelection">{{vm.selectionTo}}</span>
+                <span *ngIf="!vm.validSelection" class="not-selected">[not-selected]</span>
+            </div>
+        </footer>
+ 
+    </div>
+        <pre>
+            {{vm | json}}
+        </pre>
+
+</ng-container>
