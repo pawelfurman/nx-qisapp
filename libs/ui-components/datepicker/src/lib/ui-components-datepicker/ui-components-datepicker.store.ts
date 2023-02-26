@@ -87,6 +87,13 @@ export class DatepickerStore extends ComponentStore<State>{
             const numberOfGroups = Math.ceil(fullArray.length / 7)
             const groupArrays = Array.from({length: numberOfGroups}, (x, i) => {
                 return fullArray.slice(i*7, i*7+7)
+            }).map(week => {
+                const firstDate: any = week.find(d => d.iso !== '')
+                const index = moment(firstDate.iso).week();
+                return {
+                    index,
+                    data: week
+                };
             })
             return groupArrays;
         }

@@ -44,11 +44,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let week of vm.byWeeks; let i = index">
+                    <tr *ngFor="let week of vm.byWeeks;">
                         <td class="week-index">
-                            <span>{{i+1}}</span>
+                            <span>{{week.index}}</span>
                         </td>
-                        <td *ngFor="let day of week">
+                        <td *ngFor="let day of week.data">
 
                             <div class="day" *ngIf="day.iso.length"
                                 [attr.from]="day.from || null"
@@ -84,8 +84,5 @@
         </footer>
  
     </div>
-        <pre>
-            {{vm | json}}
-        </pre>
 
 </ng-container>

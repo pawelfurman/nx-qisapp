@@ -14,5 +14,7 @@ export const remoteRoutes: Route[] = [
       ),
       provideEffects(InsightsEffects),
     ]
+
+    
   }
 ];

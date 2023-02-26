@@ -5,12 +5,6 @@ import {
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
 import {
-  createFeature,
-  createFeatureSelector,
-  createReducer,
-  createSelector,
-  on,
-  provideState,
   provideStore,
 } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
@@ -23,8 +17,6 @@ bootstrapApplication(AppComponent, {
     provideEffects(),
     provideStore(),
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
-    // provideStore(),
-    // provideState(authFeature),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),

@@ -1,7 +1,7 @@
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { Route } from '@angular/router';
 import { provideState } from '@ngrx/store';
-import { AuthEffects, AuthFacade, authFeature } from '@qisapp/store';
+import { AuthEffects, AuthFacade, authFeature, layoutFeature } from '@qisapp/store';
 import { provideEffects } from '@ngrx/effects';
 
 
@@ -13,6 +13,7 @@ export const appRoutes: Route[] = [
     providers: [
       AuthFacade,
       provideState(authFeature),
+      provideState(layoutFeature),
       provideEffects(AuthEffects)
     ],
     children: [

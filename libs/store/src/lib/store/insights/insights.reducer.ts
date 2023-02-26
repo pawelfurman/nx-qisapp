@@ -33,14 +33,3 @@ export const insightsFeature = createFeature({
   name: INSIGHTS_FEATURE_KEY,
   reducer
 }) 
-
-
-
-// export function insightsReducer(
-//   state: InsightsState | undefined,
-//   action: Action
-// ) {
-//   return reducer(state, action);
-// }
-
-
