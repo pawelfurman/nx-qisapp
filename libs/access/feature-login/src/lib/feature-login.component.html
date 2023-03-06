@@ -1,0 +1,6 @@
+<ng-container *ngIf="vm$ | async as vm">
+    <h4>Password: &nbsp;</h4>
+    <input type="password" autocomplete="off" (ngModelChange)="modelChange($event)" [ngModel]="vm.password">
+    <i class="fa fa-spin fa-spinner" *ngIf="vm.loading"></i>
+</ng-container>
+

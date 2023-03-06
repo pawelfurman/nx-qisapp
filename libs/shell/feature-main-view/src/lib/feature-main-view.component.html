@@ -1,0 +1,13 @@
+<div class="login-view" *ngIf="login$ | async">
+    <qisapp-feature-header></qisapp-feature-header>
+    <qisapp-feature-navigation></qisapp-feature-navigation>
+    
+    <div class="view">
+      <router-outlet></router-outlet>
+    </div>
+</div>
+
+
+<div class="logout-view" *ngIf="!(login$ | async)">
+    <router-outlet></router-outlet>
+</div>

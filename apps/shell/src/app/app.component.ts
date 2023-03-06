@@ -1,21 +1,18 @@
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterModule } from '@angular/router';
-import { Component } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { FeatureHeaderComponent } from '@qisapp/shell/feature-header';
-import { FeatureNavigationComponent } from '@qisapp/shell/feature-navigation';
+import { Component, inject } from '@angular/core';
+import { FeatureMainViewComponent } from '@qisapp/shell/feature-main-view';
 
 @Component({
   standalone: true,
   imports: [
     NxWelcomeComponent,
-    RouterModule,
-    FeatureHeaderComponent,
-    FeatureNavigationComponent
+    FeatureMainViewComponent
   ],
   selector: 'qisapp-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  providers: []
 })
 export class AppComponent {
   title = 'shell';

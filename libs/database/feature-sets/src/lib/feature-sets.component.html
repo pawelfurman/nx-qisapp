@@ -1,1 +1,10 @@
 <p>List of stes added to db</p>
+
+<ng-container *ngIf="vm$ | async as vm">
+
+    <ul>
+        <li *ngFor="let entity of vm.entities">
+            {{entity.name}} - {{entity.description}}
+        </li>
+    </ul>
+</ng-container>

@@ -1,4 +1,4 @@
 module.exports = {
   name: 'shell',
-  remotes: ['insights', 'database'],
+  remotes: ['insights', 'database', 'access'],
 };

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthFacade } from '@qisapp/store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'qisapp-feature-header',
@@ -8,4 +10,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './feature-header.component.html',
   styleUrls: ['./feature-header.component.scss'],
 })
-export class FeatureHeaderComponent {}
+export class FeatureHeaderComponent {
+
+  authFacade = inject(AuthFacade)
+  router = inject(Router)
+
+  logout(){
+    this.authFacade.logout()
+  }
+}

@@ -1,0 +1,30 @@
+:host{
+
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+.login-view{
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: 50px auto;
+    grid-template-areas: "header header" "navigation view";
+    width: 100%;
+    height: 100%;
+}
+
+qisapp-feature-header{
+    grid-area: header
+}
+
+qisapp-feature-navigation{
+    grid-area: navigation
+}
+
+.view{
+    grid-area: view;
+    // box-shadow: 0 0 6px 0px #ddd inset, 0 0 4px 0px #ddd inset;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    padding: 20px;
+}

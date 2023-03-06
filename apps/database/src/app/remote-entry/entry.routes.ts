@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
-import { provideState, provideStore } from '@ngrx/store';
+import { provideState } from '@ngrx/store';
 import { DatabaseEffects, DatabaseFacade, databaseFeature } from '@qisapp/store';
 import { RemoteEntryComponent } from './entry.component';
 

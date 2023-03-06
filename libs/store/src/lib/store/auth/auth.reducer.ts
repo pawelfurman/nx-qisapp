@@ -7,8 +7,7 @@ import { AuthEntity } from './auth.models';
 export const AUTH_FEATURE_KEY = 'auth';
 
 export interface AuthState{
-  firstName: string,
-  secondName: string,
+  token: string
   username: string
 }
 
@@ -17,17 +16,28 @@ export interface AuthPartialState {
 }
 
 export const initialAuthState: AuthState = {
-  firstName: "Pawel",
-  secondName: "Furman",
+  token: '',
   username: 'pawelfurman'
 };
 
 const reducer = createReducer(
   initialAuthState,
+
+  on(AuthActions.login, (state, action: any) =>{
+    return {
+      ...state, token: action.token, username: action.username
+    }
+  }),
+
+  on(AuthActions.logout, (state, action: any) =>{
+    return {
+      ...state, token: '', username: ''
+    }
+  }),
+
   on(AuthActions.initAuth, (state) => ({
     ...state
-  })),
-
+  }))
 );
 
 export const authFeature = createFeature({

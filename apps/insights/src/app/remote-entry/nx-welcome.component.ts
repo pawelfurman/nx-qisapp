@@ -1,4 +1,4 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { AuthFacade, InsightsFacade } from '@qisapp/store';
@@ -11,22 +11,24 @@ import { UiComponentsDatepickerComponent } from '@qisapp/ui-components/datepicke
   standalone: true,
   imports: [
     CommonModule,
-    UiComponentsDatepickerComponent
+    // UiComponentsDatepickerComponent
   ],
-  providers: [
-    AuthFacade
-  ],
+  providers: [],
   template:  `
     <h1>Insights</h1>
     <h2>x{{username$ | async}}x</h2>
-    <qisapp-ui-components-datepicker></qisapp-ui-components-datepicker>
+    <!-- <qisapp-ui-components-datepicker></qisapp-ui-components-datepicker> -->
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class NxWelcomeComponent {
-  store = inject(Store)
-  insightsFacade = inject(InsightsFacade)
+export class NxWelcomeComponent implements OnInit{
+  // store = inject(Store)
+  // insightsFacade = inject(InsightsFacade)
   authFacade = inject(AuthFacade)
   username$ = this.authFacade.username$
+
+  ngOnInit(){
+    console.log('f', this.authFacade)
+  }
 }

@@ -1,6 +1,5 @@
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthFacade } from '@qisapp/store';
 import { FeatureSetsComponent } from '@qisapp/database/feature-sets';
 
 
@@ -16,9 +15,7 @@ import { FeatureSetsComponent } from '@qisapp/database/feature-sets';
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
-  providers: [
-    AuthFacade
-  ],
+  providers: [],
 })
 export class NxWelcomeComponent {
 

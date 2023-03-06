@@ -1,35 +1,32 @@
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { Route } from '@angular/router';
-import { provideState } from '@ngrx/store';
-import { AuthEffects, AuthFacade, authFeature, layoutFeature } from '@qisapp/store';
-import { provideEffects } from '@ngrx/effects';
-
-
-
+import { AuthTokenGuard } from '@qisapp/utils/auth';
 
 export const appRoutes: Route[] = [
-  { 
+  {
     path: '',
-    providers: [
-      AuthFacade,
-      provideState(authFeature),
-      provideState(layoutFeature),
-      provideEffects(AuthEffects)
-    ],
     children: [
       {
+        path: 'access',
+        loadChildren: () => import('access/Routes').then((m) => m.remoteRoutes),
+      },
+      {
         path: 'database',
-        loadChildren: () => import('database/Routes').then((m) => m.remoteRoutes),
+        canActivate: [AuthTokenGuard],
+        loadChildren: () =>
+          import('database/Routes').then((m) => m.remoteRoutes),
       },
       {
         path: 'insights',
-        loadChildren: () => import('insights/Routes').then((m) => m.remoteRoutes),
+        canActivate: [AuthTokenGuard],
+        loadChildren: () =>
+          import('insights/Routes').then((m) => m.remoteRoutes),
       },
       {
         path: '',
-        component: NxWelcomeComponent
+        canActivate: [AuthTokenGuard],
+        component: NxWelcomeComponent,
       },
-    ]
-  }
-
+    ],
+  },
 ];

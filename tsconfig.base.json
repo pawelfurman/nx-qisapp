@@ -15,11 +15,17 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@qisapp/access/feature-login": [
+        "libs/access/feature-login/src/index.ts"
+      ],
       "@qisapp/database/feature-sets": [
         "libs/database/feature-sets/src/index.ts"
       ],
       "@qisapp/shell/feature-header": [
         "libs/shell/feature-header/src/index.ts"
+      ],
+      "@qisapp/shell/feature-main-view": [
+        "libs/shell/feature-main-view/src/index.ts"
       ],
       "@qisapp/shell/feature-navigation": [
         "libs/shell/feature-navigation/src/index.ts"
@@ -27,7 +33,8 @@
       "@qisapp/store": ["libs/store/src/index.ts"],
       "@qisapp/ui-components/datepicker": [
         "libs/ui-components/datepicker/src/index.ts"
-      ]
+      ],
+      "@qisapp/utils/auth": ["libs/utils/auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

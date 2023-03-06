@@ -16,6 +16,6 @@ import { Store } from '@ngrx/store';
   encapsulation: ViewEncapsulation.None,
 })
 export class NxWelcomeComponent {
-  store = inject(Store)
+  // store = inject(Store)
 
 }
