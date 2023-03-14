@@ -16,7 +16,7 @@ export function initializeApp(): () => Promise<void> {
         console.log('toekn user', token, username)
   
         if(token?.length){
-            authFacade.login(token, username)
+            authFacade.loginOnAppInit(token, username)
         }else{
             router.navigate(['/', 'access'])
         }

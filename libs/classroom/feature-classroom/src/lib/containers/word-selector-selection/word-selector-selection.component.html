@@ -1,0 +1,10 @@
+
+<ng-container *ngIf="vm$ | async as vm">
+
+    <ul class="sets-list">
+        <li *ngFor="let entity of vm.entities">
+            <span class="subtitle">({{entity.name}})</span>
+            <span class="title">{{entity.description}}</span>
+        </li>
+    </ul>
+</ng-container>

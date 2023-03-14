@@ -29,6 +29,12 @@ const reducer = createReducer(
     }
   }),
 
+  on(AuthActions.loginOnAppInit, (state, action: any) =>{
+    return {
+      ...state, token: action.token, username: action.username
+    }
+  }),
+
   on(AuthActions.logout, (state, action: any) =>{
     return {
       ...state, token: '', username: ''

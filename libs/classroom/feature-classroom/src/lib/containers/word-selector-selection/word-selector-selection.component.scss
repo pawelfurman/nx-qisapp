@@ -1,0 +1,17 @@
+.sets-list{
+    padding: 0;
+    padding-left: 20px;
+    margin: 0;
+    list-style: none;
+
+    &-item{
+        display: flex;
+        justify-content: space-between;
+        padding: 5px 0;
+    }
+
+}
+.subtitle{
+    font-size: 12px;
+    padding-right: 10px;
+}

@@ -2,9 +2,12 @@
 
 <ng-container *ngIf="vm$ | async as vm">
 
-    <ul>
-        <li *ngFor="let entity of vm.entities">
-            {{entity.name}} - {{entity.description}}
-        </li>
-    </ul>
+    <table>
+        <tr *ngFor="let entity of vm.entities">
+            <td></td>
+            <td>{{entity.name}}</td>
+            <td>{{entity.description}}</td>
+        </tr>
+    </table>
+
 </ng-container>

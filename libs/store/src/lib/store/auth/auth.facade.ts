@@ -21,14 +21,17 @@ export class AuthFacade {
    * or more tasks in your Effects.
    */
   init() {
-    console.log('init?')
     this.store.dispatch(AuthActions.initAuth());
   }
 
   login(token: string, username: string){
-
     this.store.dispatch(AuthActions.login({token, username}))
   }
+
+  loginOnAppInit(token: string, username: string){
+    this.store.dispatch(AuthActions.loginOnAppInit({token, username}))
+  }
+
 
   logout(){
     this.store.dispatch(AuthActions.logout())

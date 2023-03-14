@@ -15,9 +15,7 @@ import { FeatureSetsStore } from './feature-sets.store';
 export class FeatureSetsComponent implements OnInit{
   store = inject(FeatureSetsStore)
 
-
   vm$ = this.store.vm$
-
 
   ngOnInit(): void {
       this.store.fetchSets();

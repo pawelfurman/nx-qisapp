@@ -3,9 +3,14 @@ import { Route } from '@angular/router';
 import { AuthTokenGuard } from '@qisapp/utils/auth';
 
 export const appRoutes: Route[] = [
+
   {
     path: '',
     children: [
+      {
+        path: 'classroom',
+        loadChildren: () => import('classroom/Routes').then((m) => m.remoteRoutes),
+      },
       {
         path: 'access',
         loadChildren: () => import('access/Routes').then((m) => m.remoteRoutes),

@@ -1,0 +1,16 @@
+<ng-container *ngIf="vm$ | async as vm">
+
+    <section class="selection">
+        <div class="selection-to-choose">
+            <h3>To Select</h3>
+            <qisapp-word-selector-sets></qisapp-word-selector-sets>
+        </div>
+        
+        <div class="selection-choosen">
+            <h3>Selected</h3>
+            <qisapp-word-selector-selection></qisapp-word-selector-selection>
+        </div>
+    </section>
+</ng-container>
+
+<qisapp-lesson-summary></qisapp-lesson-summary>
