@@ -11,7 +11,7 @@ import { LessonSummaryStore } from './lesson-summary.store';
   providers: [LessonSummaryStore]
 })
 export class LessonSummaryComponent {
-  private store = inject(LessonSummaryStore)
+  store = inject(LessonSummaryStore)
 
   vm$ = this.store.vm$
 

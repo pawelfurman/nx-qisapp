@@ -1,0 +1,11 @@
+
+button{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: lightgreen;
+    padding: 5px 10px;
+    &[added]{
+        background: lightcoral;
+    }
+}

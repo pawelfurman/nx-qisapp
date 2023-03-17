@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { inject } from '@angular/core'
 import {ComponentStore, tapResponse} from '@ngrx/component-store'
 import { Observable, switchMap, tap } from 'rxjs'
+import { LessonRepository } from '../../data-access/lesson.repository'
 import { WordSelectorStore } from '../word-selector/word-selector.store'
 
 
@@ -21,6 +22,7 @@ const initialState: State = {
 export class WordSelectorSetsStore extends ComponentStore<State> {
 
     http = inject(HttpClient)
+    lessonRepository = inject(LessonRepository)
     wordSelectorStore = inject(WordSelectorStore)
 
     constructor(){
@@ -46,20 +48,10 @@ export class WordSelectorSetsStore extends ComponentStore<State> {
     )
 
 
-    fetch = this.effect((trigger$: Observable<void>) => {
-        return trigger$.pipe(
-            switchMap(() => this.http.get<any[]>(`http://localhost:3000/sets`).pipe(
-                tapResponse((entities) => {
-                    this.patchState({entities})
-                }, () => {})
-            ) )
-        ) 
-    })
-
     selectSet = this.effect((setId$: Observable<number>) => {
         return setId$.pipe(
             tap((setId => {
-                this.wordSelectorStore.addSet(setId)
+                // this.wordSelectorStore.addSet(setId)
             }))
         )
     })

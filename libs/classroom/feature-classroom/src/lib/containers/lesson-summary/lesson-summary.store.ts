@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { inject } from '@angular/core'
 import {ComponentStore, tapResponse} from '@ngrx/component-store'
 import { from, map, mergeMap, Observable, of, switchMap, tap, toArray, withLatestFrom } from 'rxjs'
+import { LessonRepository } from '../../data-access/lesson.repository'
 import { WordSelectorStore } from '../word-selector/word-selector.store'
 
 
@@ -12,11 +13,10 @@ const initialState: State = {
 
 }
 
-
 export class LessonSummaryStore extends ComponentStore<State> {
 
     wordSelectorStore = inject(WordSelectorStore)
-    http = inject(HttpClient)
+    lessonRepository = inject(LessonRepository)
 
     constructor(){
         super(initialState)
@@ -25,9 +25,11 @@ export class LessonSummaryStore extends ComponentStore<State> {
 
     vm$ = this.select(
         this.wordSelectorStore.selectedSets$,
-        (selectedSets) => {
+        this.wordSelectorStore.selectedQuestions$,
+        (selectedSets, selectedQuestions) => {
             return {
-                selectedSets
+                selectedSets,
+                selectedQuestions
             }
         }
     )
@@ -44,9 +46,8 @@ export class LessonSummaryStore extends ComponentStore<State> {
             switchMap(([_, selectedSets]) => {
                 return from(selectedSets).pipe(
                     mergeMap((setId: number) => {
-                        console.log('setId', setId)
 
-                        return this.http.get<any[]>(`http://localhost:3000/sets/${setId}/questions`)
+                        return this.lessonRepository.fetchQuestionsBySetId(setId)
                     }),
                     toArray()
                 )
@@ -57,7 +58,7 @@ export class LessonSummaryStore extends ComponentStore<State> {
                 }, [])
             }),
             tap((questions) => {
-                console.log('questions', questions)
+                this.wordSelectorStore.patchState({questions})
             })
             
         )

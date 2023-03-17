@@ -1,5 +1,7 @@
 <ng-container *ngIf="vm$ | async as vm">
     Ilość rozdziałów: {{vm.selectedSets.length}}
     <br>
+    Ilosc slow: {{vm.selectedQuestions.length}}
+    <br>
     <button (click)="startLesson()">Start</button>
 </ng-container>

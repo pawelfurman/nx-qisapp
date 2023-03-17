@@ -1,16 +1,26 @@
 <ng-container *ngIf="vm$ | async as vm">
 
+
+    <qisapp-lesson [questions]="vm.questions"></qisapp-lesson>
+
     <section class="selection">
         <div class="selection-to-choose">
             <h3>To Select</h3>
-            <qisapp-word-selector-sets></qisapp-word-selector-sets>
+            <button (click)="fetchSets()">fetch sets</button>
+            <qisapp-word-selector-sets [entities]="vm.entities" (setSelection)="selectSet($event)"></qisapp-word-selector-sets>
         </div>
         
         <div class="selection-choosen">
             <h3>Selected</h3>
-            <qisapp-word-selector-selection></qisapp-word-selector-selection>
+            <!-- <qisapp-word-selector-selection></qisapp-word-selector-selection> -->
+            <ul>
+                <li *ngFor="let q of vm.selectedQuestions">
+                    <small>{{q.tag}}</small> {{q.firstValue}} - {{q.secondValue}}
+                </li>
+            </ul>
         </div>
     </section>
 </ng-container>
+
 
 <qisapp-lesson-summary></qisapp-lesson-summary>

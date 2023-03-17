@@ -1,17 +1,13 @@
 
 <ng-container *ngIf="vm$ | async as vm">
     <ul class="sets-list">
-        <li *ngFor="let entity of vm.entities; trackBy: trackById" class="sets-list-item">
-            <div class="content">
-                <span class="subtitle">({{entity.name}})</span>
-                <span class="title">{{entity.description}}</span>
-            </div>
-            <div class="actions">
-                <button (click)="selectSet(entity.id)" [attr.added]="entity.isAdded || null">
-                    <i *ngIf="!entity.isAdded" class="fa fa-arrow-right"></i>
-                    <i *ngIf="entity.isAdded" class="fa fa-arrow-left"></i>
-                </button>
-            </div>
-        </li>
+        <ng-container *ngFor="let entity of vm.entities; trackBy: trackById">
+            <li 
+                qisapp-word-selector-sets-item
+                [entity]="entity"
+                (setSelection)="selectSet($event)"
+                class="sets-list-item"></li>
+        </ng-container>
+   
     </ul>
 </ng-container>

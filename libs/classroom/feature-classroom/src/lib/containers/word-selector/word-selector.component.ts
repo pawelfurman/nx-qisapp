@@ -5,6 +5,8 @@ import { WordSelectorSelectionComponent } from '../word-selector-selection/word-
 import { WordSelectorStore } from './word-selector.store';
 import { WordSelectorSetsStore } from '../word-selector-sets/word-selector-sets.store';
 import { LessonSummaryComponent } from '../lesson-summary/lesson-summary.component';
+import { LessonComponent } from '../lesson/lesson.component';
+import { SetsFetchStore } from '../../store/sets-fetch.store';
 
 @Component({
   selector: 'qisapp-word-selector',
@@ -13,16 +15,28 @@ import { LessonSummaryComponent } from '../lesson-summary/lesson-summary.compone
     CommonModule,
     WordSelectorSetsComponent,
     WordSelectorSelectionComponent,
-    LessonSummaryComponent
+    LessonSummaryComponent,
+    LessonComponent
   ],
   templateUrl: './word-selector.component.html',
   styleUrls: ['./word-selector.component.scss'],
-  providers: [WordSelectorStore, WordSelectorSetsStore]
+  providers: [WordSelectorStore, WordSelectorSetsStore, SetsFetchStore]
   //@TODO - INCORRECT - WordSelectorSetsStore shouldnt be provided here
 })
 export class WordSelectorComponent {
 
   store = inject(WordSelectorStore)
+  setsFetchStore = inject(SetsFetchStore)
 
   vm$ = this.store.vm$
+
+
+  fetchSets(){
+    this.setsFetchStore.fetch()
+  }
+
+  selectSet(setId: number){
+    // this.store.addSet(setId)
+    this.store.addQuestionsBySetId(setId)
+  }
 }
