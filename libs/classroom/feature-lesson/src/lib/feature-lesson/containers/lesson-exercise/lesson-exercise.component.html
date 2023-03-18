@@ -1,0 +1,45 @@
+<ng-container *ngIf="vm$ | async as vm">
+
+    <form action="" (submit)="submitPhrase()">
+
+        Pytanie: {{vm.currentQuestion?.firstValue}} ({{vm.currentQuestion?.secondValue}})
+        <br>
+
+        <ng-container *ngIf="vm.toGuess.length">
+            Odpowiedź: <input autocomplete="off" name="phrase" type="text" [ngModel]="vm.phrase" (ngModelChange)="typePhrase($event)">
+        </ng-container>
+        <ng-container *ngIf="!vm.toGuess.length">
+            <strong>The end</strong>
+        </ng-container>
+
+        <br>
+        <br>
+        Twoja Odpowiedź: {{vm.previousPhrase}}
+        <br>
+        Poprzednie: 
+        <ul>
+            <li>{{vm.previousQuestion?.secondValue}}</li>
+            <li>{{vm.previousQuestion?.secondValueCollocation}}</li>
+            <li>{{vm.previousQuestion?.secondValueUsage}}</li>
+        </ul>
+        <ul>
+            <li>{{vm.previousQuestion?.firstValue}}</li>
+            <li>{{vm.previousQuestion?.firstValueCollocation}}</li>
+            <li>{{vm.previousQuestion?.firstValueUsage}}</li>
+        </ul>
+        <br>
+        Do zgadniecia: {{vm.toGuess.length}}
+        <br>
+        Odgadniete: {{vm.guessed.length}}
+        <br>
+        <br>
+        {{vm.toGuess | json}}
+        <br>
+        {{vm.guessed | json}}
+
+    </form>
+
+    <button (click)="finish()">Finish</button>
+    
+
+</ng-container>

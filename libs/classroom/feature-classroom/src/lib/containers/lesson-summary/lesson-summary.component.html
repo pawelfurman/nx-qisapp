@@ -1,7 +1,11 @@
 <ng-container *ngIf="vm$ | async as vm">
-    Ilość rozdziałów: {{vm.selectedSets.length}}
+    sets: {{vm.selectedSets.length}}
     <br>
-    Ilosc slow: {{vm.selectedQuestions.length}}
+    words: {{vm.selectedQuestions.length}}
     <br>
-    <button (click)="startLesson()">Start</button>
+    repetition: <input type="number" (ngModelChange)="updateRepetition($event)" [ngModel]="vm.repetition">
+    <br>
+    answerIncrement: <input type="number" (ngModelChange)="updateAnswerIncrement($event)" [ngModel]="vm.answerIncrement">
+    <br>
+    <button (click)="startLesson()">Create</button>
 </ng-container>

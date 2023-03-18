@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 
 export class LessonRepository {
     http = inject(HttpClient)
@@ -11,5 +11,9 @@ export class LessonRepository {
 
     fetchAllSets(){
         return this.http.get<any[]>(`http://localhost:3000/sets`)
+    }
+
+    createLesson(data: any){
+        return this.http.post(`http://localhost:3000/lessons`, data)
     }
 }

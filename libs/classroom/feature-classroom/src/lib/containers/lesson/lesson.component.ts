@@ -25,15 +25,5 @@ export class LessonComponent {
   vm$ = this.store.vm$
 
 
-  submitPhrase(){
-    this.store.submitPhrase()
-  }
 
-  typePhrase(phrase: string){
-    this.store.patchState({phrase})
-  }
-
-  finish(){
-    this.store.finish()
-  }
 }

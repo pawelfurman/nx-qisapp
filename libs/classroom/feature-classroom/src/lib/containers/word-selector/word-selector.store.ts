@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { inject } from '@angular/core'
+import { Router } from '@angular/router'
 import {ComponentStore, tapResponse} from '@ngrx/component-store'
-import { EMPTY, Observable, switchMap, tap, withLatestFrom } from 'rxjs'
+import { EMPTY, map, Observable, switchMap, tap, withLatestFrom } from 'rxjs'
 import { LessonRepository } from '../../data-access/lesson.repository'
 import { SetsFetchStore } from '../../store/sets-fetch.store'
 
@@ -25,6 +26,7 @@ export class WordSelectorStore extends ComponentStore<State> {
 
     lessonRepository = inject(LessonRepository)
     setsFetchStore = inject(SetsFetchStore)
+    router = inject(Router)
 
 
     constructor(){
@@ -58,8 +60,12 @@ export class WordSelectorStore extends ComponentStore<State> {
         }
     )
 
-    readonly mergeQuestions = this.updater((state, questions: any[]) => {
+    readonly mergeSelectedQuestions = this.updater((state, questions: any[]) => {
         return {...state, selectedQuestions: [...state.selectedQuestions, ...questions]}
+    })
+
+    readonly moveQuestions = this.updater((state) => {
+        return {...state, questions: [...state.selectedQuestions], selectedQuestions: []}
     })
 
 
@@ -72,7 +78,6 @@ export class WordSelectorStore extends ComponentStore<State> {
             switchMap(([setId, selectedQuestions]) => {
                 const tag = `set-id-${setId}`
                 const isTagInSelection = selectedQuestions.filter(sq => sq.tag === tag)
-                console.log('isTagInSelection', isTagInSelection)
 
                 if(isTagInSelection.length){
                     this.patchState({
@@ -84,8 +89,7 @@ export class WordSelectorStore extends ComponentStore<State> {
                 return this.lessonRepository.fetchQuestionsBySetId(setId).pipe(
                     tapResponse(
                         (questions) => {
-                            console.log('questions', questions)
-                            this.mergeQuestions(questions.map(q => ({...q, tag: `set-id-${setId}`})))
+                            this.mergeSelectedQuestions(questions.map(q => ({...q, tag: `set-id-${setId}`})))
                             
                         },
                         () => {}    
@@ -95,9 +99,32 @@ export class WordSelectorStore extends ComponentStore<State> {
         )
     })
 
-    
 
 
+    readonly startLesson = this.effect((data$: Observable<any>) => {
+        return data$.pipe(
+            withLatestFrom(
+                this.selectedQuestions$.pipe(
+                    map(selecteQuestions => selecteQuestions.map(sq => sq.id))
+                )
+            ),
+            switchMap(([data, questions]) => this.lessonRepository.createLesson({
+                questions,
+                ...data
+            }).pipe(
+                tapResponse(
+                    (response: any) => {
+                        console.log('response', response)
+                        this.router.navigate(['/', 'classroom', 'lessons', response.id])
+
+                    },
+                    () => {}
+                ))
+            ),
+            
+            
+        )
+    })
 
 
 }

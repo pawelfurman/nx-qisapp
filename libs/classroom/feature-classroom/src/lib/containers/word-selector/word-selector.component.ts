@@ -7,6 +7,7 @@ import { WordSelectorSetsStore } from '../word-selector-sets/word-selector-sets.
 import { LessonSummaryComponent } from '../lesson-summary/lesson-summary.component';
 import { LessonComponent } from '../lesson/lesson.component';
 import { SetsFetchStore } from '../../store/sets-fetch.store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'qisapp-word-selector',
@@ -27,6 +28,7 @@ export class WordSelectorComponent {
 
   store = inject(WordSelectorStore)
   setsFetchStore = inject(SetsFetchStore)
+  router = inject(Router)
 
   vm$ = this.store.vm$
 
@@ -38,5 +40,13 @@ export class WordSelectorComponent {
   selectSet(setId: number){
     // this.store.addSet(setId)
     this.store.addQuestionsBySetId(setId)
+  }
+
+  startLesson(data: any){
+    // this.store.moveQuestions();
+    // this.router.navigate(['/', 'classroom', 'lesson'])
+
+    console.log('selector start lesson data', data)
+    this.store.startLesson(data)
   }
 }

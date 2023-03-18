@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { inject } from '@angular/core'
+import { EventEmitter, inject } from '@angular/core'
 import {ComponentStore, tapResponse} from '@ngrx/component-store'
 import { from, map, mergeMap, Observable, of, switchMap, tap, toArray, withLatestFrom } from 'rxjs'
 import { LessonRepository } from '../../data-access/lesson.repository'
@@ -7,10 +7,13 @@ import { WordSelectorStore } from '../word-selector/word-selector.store'
 
 
 type State = {
+    answerIncrement: number,
+    repetition: number
 }
 
 const initialState: State = {
-
+    answerIncrement: 1,
+    repetition: 1
 }
 
 export class LessonSummaryStore extends ComponentStore<State> {
@@ -18,18 +21,26 @@ export class LessonSummaryStore extends ComponentStore<State> {
     wordSelectorStore = inject(WordSelectorStore)
     lessonRepository = inject(LessonRepository)
 
+    startLessonEmitter: EventEmitter<any> = new EventEmitter()
+
     constructor(){
         super(initialState)
     }
 
+    answerIncrement$ = this.select(state => state.answerIncrement)
+    repetition$ = this.select(state => state.repetition)
 
     vm$ = this.select(
         this.wordSelectorStore.selectedSets$,
         this.wordSelectorStore.selectedQuestions$,
-        (selectedSets, selectedQuestions) => {
+        this.answerIncrement$,
+        this.repetition$,
+        (selectedSets, selectedQuestions, answerIncrement, repetition) => {
             return {
                 selectedSets,
-                selectedQuestions
+                selectedQuestions,
+                answerIncrement,
+                repetition
             }
         }
     )
@@ -38,27 +49,14 @@ export class LessonSummaryStore extends ComponentStore<State> {
     readonly startLesson = this.effect((trigger$: Observable<void>) => {
         return trigger$.pipe(
             withLatestFrom(
-                this.wordSelectorStore.selectedSets$
+                this.repetition$,
+                this.answerIncrement$
             ),
-            tap(([_, selectedSets]) => {
-                console.log(selectedSets)
-            }),
-            switchMap(([_, selectedSets]) => {
-                return from(selectedSets).pipe(
-                    mergeMap((setId: number) => {
-
-                        return this.lessonRepository.fetchQuestionsBySetId(setId)
-                    }),
-                    toArray()
-                )
-            }),
-            map(questions => {
-                return questions.reduce((acc,curr) => {
-                    return [...acc, ...curr]
-                }, [])
-            }),
-            tap((questions) => {
-                this.wordSelectorStore.patchState({questions})
+            tap(([_, repetition, answerIncrement]) => {
+                this.startLessonEmitter.emit({
+                    repetition,
+                    answerIncrement
+                })
             })
             
         )
@@ -66,15 +64,3 @@ export class LessonSummaryStore extends ComponentStore<State> {
 
 }
 
-
-
-// return this.http.get<Question[]>(`${environment.api}/sets/${setId}/questions`)
-
-// fetchSets = this.effect(() => {
-//     return this.http.get<any[]>(`http://localhost:3000/sets`).pipe(
-//         tapResponse((entities) => {
-//             console.log('response1', entities)
-//             this.patchState({entities})
-//         }, () => {})
-//     )
-// })
