@@ -8,4 +8,12 @@ export class LessonRepository {
     getLesson(lessonId: any){
         return this.http.get<any[]>(`http://localhost:3000/lessons/${lessonId}`)
     }
+
+    createLessonStep(lessonId: any, body: any){
+        return this.http.post<any>(`http://localhost:3000/lessons/${lessonId}/step`, body)
+    }
+
+    createLessonStatus(lessonId: any, body: any){
+        return this.http.post<any>(`http://localhost:3000/lessons/${lessonId}/status`, body)
+    }
 }

@@ -15,7 +15,9 @@ type State = {
     toGuess: any[],
     guessed: any[],
     repetition: number,
-    answerIncrement: number
+    answerIncrement: number,
+    tries: number
+    lessonId: number
 }
 
 const initialState: State = {
@@ -26,7 +28,9 @@ const initialState: State = {
     toGuess: [],
     guessed: [],
     repetition: 1,
-    answerIncrement: 1
+    answerIncrement: 1,
+    tries: 0,
+    lessonId: 0
 
 }
 
@@ -47,6 +51,8 @@ export class LessonExerciseStore extends ComponentStore<State> {
     previousQuestionId$ = this.select(state => state.previousQuestionId)
     repetition$ = this.select(state => state.repetition)
     answerIncrement$ = this.select(state => state.answerIncrement)
+    tries$ = this.select(state => state.tries)
+    lessonId$ = this.select(state => state.lessonId)
 
 
     firstToGuess$ = this.select(
@@ -74,16 +80,25 @@ export class LessonExerciseStore extends ComponentStore<State> {
         this.guessed$,
         this.previousPhrase$,
         this.previousQuestion$,
-        (questions, phrase, currentQuestion, toGuess, guessed, previousPhrase, previousQuestion) => {
+        this.tries$,
+        this.lessonId$,
+        (questions, phrase, currentQuestion, toGuess, guessed, previousPhrase, previousQuestion, tries, lessonId) => {
             return {
-                questions, phrase, currentQuestion, toGuess, guessed, previousPhrase, previousQuestion
+                questions, phrase, currentQuestion, toGuess, guessed, previousPhrase, previousQuestion,
+                percent: (guessed.length / (toGuess.length + guessed.length) * 100).toFixed(2),
+                efficiency: (100 * guessed.length / tries).toFixed()
             }
         }
     )
 
+    readonly incrementTries = this.updater((state) => ({...state, tries: state.tries + 1}))
+
 
     readonly submitPhrase = this.effect((trigger$) => {
         return trigger$.pipe(
+            tap(() => {
+                this.incrementTries()
+            }),
             switchMap(() => this.phrase$.pipe(
                 take(1),
                 filter(phrase => !!phrase.length)
@@ -92,9 +107,10 @@ export class LessonExerciseStore extends ComponentStore<State> {
                 this.currentQuestion$,
                 this.toGuess$,
                 this.guessed$,
-                this.answerIncrement$
+                this.answerIncrement$,
+                this.lessonId$,
             ),
-            tap(([phrase, question, toGuess, guessed, answerIncrement]) => {
+            tap(([phrase, question, toGuess, guessed, answerIncrement, lessonId]) => {
                 const correctness = this.engine.compareAnswers(phrase, question.secondValue)
                 if(correctness){
                     this.engine.setupCorrectAnswer(toGuess, guessed)
@@ -113,36 +129,33 @@ export class LessonExerciseStore extends ComponentStore<State> {
                     })
      
                 }
+
+                this.repository.createLessonStep(lessonId, {
+                    lessonId,
+                    correctness,
+                    questionId: question.id
+                }).subscribe()
+
                 this.patchState({phrase: '', previousPhrase: phrase, previousQuestionId: question.id})
             })
         )
     })
 
 
-    readonly setQuestions = this.effect(() => {
-        return this.questions$.pipe(
-            filter(questions => !!questions.length),
-            withLatestFrom(this.repetition$),
-            tap(([questions, repetition]: any[]) => {
-                const q = questions.slice(0, 2);
-                const toGuess = this.engine.prepareQuestionsToGuess(q, repetition)
-
-                this.patchState({
-                    toGuess
-                })
-            }) 
-        )
-    })
-
     readonly followEnd = this.effect(() => {
         return this.toGuess$.pipe(
             withLatestFrom(
-                this.guessed$
+                this.guessed$,
+                this.lessonId$
             ),
-            filter(([toGuess, guessed]) => !toGuess.length && !!guessed.length ),
-            tap(([toGuess, guessed]) => {
+            filter(([toGuess, guessed, lessonId]) => !toGuess.length && !!guessed.length ),
+            tap(([toGuess, guessed, lessonId]) => {
                 console.log('FINISH')
-            })
+            }),
+            switchMap(([toGuess, guessed, lessonId]) => this.repository.createLessonStatus(lessonId, {
+                lessonId,
+                status: 'finished'
+            }))
         )
     })
 
@@ -152,14 +165,42 @@ export class LessonExerciseStore extends ComponentStore<State> {
             switchMap((lessonId) => this.repository.getLesson(lessonId).pipe(
                 tapResponse(
                     (response: any) => {
-                        console.log(response, response.repetition)
                         this.patchState({
                             repetition: response.repetition,
                             answerIncrement: response.answerIncrement
                         })
+                        const repetition = response.repetition
+                        const reversedQuestions = response.questions.map((q:any) => this.engine.prepareReverseQuestion(q))
+                        const toGuess =  this.engine.prepareQuestionsToGuess(reversedQuestions, repetition)
+                        const tries = response.steps.length
+            
+                        //recreate the state
+                        let newToGuess: any[] = [...toGuess]
+                        let newGuessed: any[] = []
+                        response.steps.forEach((step: any) => {
+                            if(step.correctness){
+                                const toGuessWithoutStep = newToGuess.filter(tg => tg !== step.questionId)
+                                const stepsFromToGuess = newToGuess.filter(tg => tg === step.questionId)
+
+                                newToGuess = [...toGuessWithoutStep, ...stepsFromToGuess.slice(1)]
+                                newGuessed = [...newGuessed, stepsFromToGuess[0]]
+                            }
+
+                            if(!step.correctness){
+                                const additionalAmount = repetition - 1;
+                                if(repetition > 0){
+                                    const penetlyToGuess = Array(additionalAmount).fill(step.questionId)
+
+                                    newToGuess = [...newToGuess, ...penetlyToGuess]
+                                }
+                            }
+                        })
 
                         this.patchState({
-                            questions: response.questions.map((q:any) => this.engine.prepareReverseQuestion(q) )
+                            questions: response.questions.map((q:any) => this.engine.prepareReverseQuestion(q) ),
+                            toGuess: [...this.engine.shuffleArray(newToGuess)],
+                            guessed: [...newGuessed],
+                            tries
                         })
                     },
                     () => {}
@@ -167,5 +208,23 @@ export class LessonExerciseStore extends ComponentStore<State> {
             ))
         )
     }) 
+
+
+    readonly changeStatus = this.effect((lessonId$: Observable<string | number>) => {
+        return lessonId$.pipe(
+            switchMap((lessonId) => this.repository.createLessonStatus(lessonId, {
+                lessonId,
+                status: 'initialized'
+            }).pipe(
+                tapResponse(
+                    (response: any) => {
+                        console.log('resopnse', response)
+                    },
+                    () => {}
+                )
+            ))
+        )
+    }) 
+
 }
 

@@ -23,6 +23,8 @@ export class LessonExerciseComponent implements OnInit {
   ngOnInit(): void {
       const params = this.route.snapshot.params
       this.store.fetchLesson(params['id'])
+      this.store.patchState({lessonId: params['id']})
+      this.store.changeStatus(params['id'])
   }
 
 

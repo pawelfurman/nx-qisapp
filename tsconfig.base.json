@@ -24,6 +24,9 @@
       "@qisapp/classroom/feature-lesson": [
         "libs/classroom/feature-lesson/src/index.ts"
       ],
+      "@qisapp/classroom/feature-lessons": [
+        "libs/classroom/feature-lessons/src/index.ts"
+      ],
       "@qisapp/database/feature-sets": [
         "libs/database/feature-sets/src/index.ts"
       ],
