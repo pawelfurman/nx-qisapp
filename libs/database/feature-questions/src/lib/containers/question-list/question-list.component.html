@@ -1,0 +1,13 @@
+<ng-container *ngIf="vm$ | async as vm">
+    <a [routerLink]="['/', 'database']">Sets</a>
+    <br>
+
+    Total: <strong>{{vm.entities.length}}</strong>
+    <ul>
+        <li *ngFor="let entity of vm.entities" [attr.removed]="entity.removed || null">
+            <span>{{entity.id}} - {{entity.firstValue}} - {{entity.secondValue}} - <i>{{entity.createdAt | date}}</i></span>
+            <button [disabled]="entity.removed" (click)="remove(entity.id)">Remove</button>
+        </li>
+    </ul>
+
+</ng-container>

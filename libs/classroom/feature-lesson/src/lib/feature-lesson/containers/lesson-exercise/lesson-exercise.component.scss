@@ -1,0 +1,127 @@
+.answer-input{
+    padding: 10px 0;
+    input{
+        height: 32px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        outline: none;
+        width: 300px;
+        padding: 0 10px;
+    }
+
+}
+
+
+.progress{
+    padding: 10px 0;
+
+
+    &-label{
+        font-size: 14px;
+        padding-right: 20px;
+        white-space: nowrap;
+    }
+
+    &-track{
+        width: 100%;
+        border: 1px solid #ddd;
+
+        height: 15px;
+        padding: 0 2px;
+        position: relative;
+        border-radius: 10px;
+    }
+    &-bar{
+        background: lightblue;
+        height: 11px;
+        margin-top: 2px;
+        border-radius: 10px;
+    }
+}
+
+.checklist{
+    padding: 10px 0;
+
+    &-label{
+        font-size: 14px;
+        padding-right: 20px;
+        white-space: nowrap;
+    }
+
+    &-items{
+
+        i{
+            padding-right: 10px;
+            
+            &[guessed]{
+                color: lightgreen
+            }
+            &[remained]{
+                color: lightslategrey
+            }
+        }
+    }
+}
+
+
+.previous{
+    margin: 10px 0;
+    padding: 20px;
+    border-radius: 5px;
+
+    &[correct]{
+        background: lighten(green, 60%);
+
+        .previous-user-answer{
+            border-top: 1px solid lighten(green, 50%);
+        }
+    }
+
+    &[incorrect]{
+        background: lighten(red, 30%);
+
+        .previous-user-answer{
+            border-top: 1px solid lighten(red, 20%);
+        }
+    }
+
+    &-user-answer{
+        font-size: 14px;
+        margin-top: 15px;
+        padding-top: 15px;
+
+        span{
+            font-weight: 600;
+        }
+    }
+
+    &-answers{
+        display: flex;
+        justify-content: space-between;
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            width: 50%;
+
+            li{
+                padding: 5px 0;
+            }
+        }
+
+        &-value{
+            font-weight: 600;
+        }
+
+        &-collocation{
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        &-usage{
+            font-style: italic;
+            font-size: 14px;
+        }
+      
+    }
+}

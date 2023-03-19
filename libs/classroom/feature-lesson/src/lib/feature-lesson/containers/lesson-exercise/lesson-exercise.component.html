@@ -2,48 +2,69 @@
 
     <form action="" (submit)="submitPhrase()">
 
-        Pytanie: {{vm.currentQuestion?.firstValue}} ({{vm.currentQuestion?.secondValue}})
-        <br>
+        <div class="question">
+            <strong>{{vm.currentQuestion?.firstValue}}</strong>
+        </div>
 
-        <ng-container *ngIf="vm.toGuess.length">
-            Odpowiedź: <input autocomplete="off" name="phrase" type="text" [ngModel]="vm.phrase" (ngModelChange)="typePhrase($event)">
-        </ng-container>
+
+        <div class="answer-input" *ngIf="vm.toGuess.length">
+            <input autocomplete="off" name="phrase" type="text" [ngModel]="vm.phrase" (ngModelChange)="typePhrase($event)">
+        </div>
+
         <ng-container *ngIf="!vm.toGuess.length">
-            <strong>The end</strong>
+            <strong>It's Done!</strong>
         </ng-container>
+        
+        <div class="previous"
+            [attr.correct]="vm.previousQuestion.result || null" 
+            [attr.incorrect]="!vm.previousQuestion.result || null" 
+            
+            *ngIf="vm.previousQuestion">
+            <div class="previous-answers">
+                <ul>
+                    <li class="previous-answers-value">{{vm.previousQuestion?.secondValue}}</li>
+                    <li class="previous-answers-usage">{{vm.previousQuestion?.secondValueUsage}}</li>
+                    <li class="previous-answers-collocation">{{vm.previousQuestion?.secondValueCollocation}}</li>
+                </ul>
+                <ul>
+                    <li class="previous-answers-value">{{vm.previousQuestion?.firstValue}}</li>
+                    <li class="previous-answers-usage">{{vm.previousQuestion?.firstValueUsage}}</li>
+                    <li class="previous-answers-collocation">{{vm.previousQuestion?.firstValueCollocation}}</li>
+                </ul>
+        
+            </div>
+            <div class="previous-user-answer">
+                Your answer: <span>{{vm.previousPhrase}}</span>
+            </div>
+        </div>
 
-        <br>
-        <br>
-        Twoja Odpowiedź: {{vm.previousPhrase}}
-        <br>
-        Poprzednie: 
-        <ul>
-            <li>{{vm.previousQuestion?.secondValue}}</li>
-            <li>{{vm.previousQuestion?.secondValueCollocation}}</li>
-            <li>{{vm.previousQuestion?.secondValueUsage}}</li>
-        </ul>
-        <ul>
-            <li>{{vm.previousQuestion?.firstValue}}</li>
-            <li>{{vm.previousQuestion?.firstValueCollocation}}</li>
-            <li>{{vm.previousQuestion?.firstValueUsage}}</li>
-        </ul>
-        <br>
-        Do zgadniecia: {{vm.toGuess.length}}
-        <br>
-        Odgadniete: {{vm.guessed.length}}
-        <br>
-        <br>
-        {{vm.toGuess | json}}
-        <br>
-        {{vm.guessed | json}}
+        <div class="checklist">
+            <span class="checklist-label">Remained {{vm.toGuess.length}}</span>
+            <div class="checklist-items">
+                <i remained class="fa fa-square-minus" *ngFor="let g of vm.toGuess"></i>
+            </div>
+        </div>
+        
+        <div class="checklist">
+            <span class="checklist-label">Guessed {{vm.guessed.length}}</span>
+            <div class="checklist-items">
+                <i guessed class="fa fa-square-check" *ngFor="let g of vm.guessed"></i>
+            </div>
+        </div>
 
-        <br>
-        procent: {{vm.percent}}%
-        <br>
-        efficiency: {{vm.efficiency}}%
+        <div class="progress">
+            <span class="progress-label">Progress {{vm.percent}}%</span>
+            <div class="progress-track">
+                <div class="progress-bar" [style.width.%]="vm.percent"></div>
+            </div>
+        </div>
+        <div class="progress">
+            <span class="progress-label">Efficiency {{vm.efficiency}}%</span>
+            <div class="progress-track">
+                <div class="progress-bar" [style.width.%]="vm.efficiency"></div>
+            </div>
+        </div>
+
     </form>
-
-    <button (click)="finish()">Finish</button>
-    
 
 </ng-container>

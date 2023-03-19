@@ -8,6 +8,7 @@ import { LessonSummaryComponent } from '../lesson-summary/lesson-summary.compone
 import { LessonComponent } from '../lesson/lesson.component';
 import { SetsFetchStore } from '../../store/sets-fetch.store';
 import { Router } from '@angular/router';
+import { WordSelectorSpecialComponent } from '../word-selector-special/word-selector-special.component';
 
 @Component({
   selector: 'qisapp-word-selector',
@@ -17,7 +18,8 @@ import { Router } from '@angular/router';
     WordSelectorSetsComponent,
     WordSelectorSelectionComponent,
     LessonSummaryComponent,
-    LessonComponent
+    LessonComponent,
+    WordSelectorSpecialComponent
   ],
   templateUrl: './word-selector.component.html',
   styleUrls: ['./word-selector.component.scss'],
@@ -46,7 +48,12 @@ export class WordSelectorComponent {
     // this.store.moveQuestions();
     // this.router.navigate(['/', 'classroom', 'lesson'])
 
-    console.log('selector start lesson data', data)
     this.store.startLesson(data)
+  }
+
+
+  selectAmount(amount: number){
+    this.store.addQuestionsByTimeAmount(amount)
+
   }
 }

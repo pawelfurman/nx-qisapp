@@ -99,7 +99,6 @@ export class LessonStore extends ComponentStore<State> {
                     })
 
                     if(!newState.toGuess.length){
-                        console.log('FInish from phrase guess')
                     }
                 }else{
                     this.patchState({
@@ -134,7 +133,6 @@ export class LessonStore extends ComponentStore<State> {
             ),
             filter(([toGuess, guessed]) => !toGuess.length && !!guessed.length ),
             tap(([toGuess, guessed]) => {
-                console.log('FINISH')
             })
         )
     })

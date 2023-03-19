@@ -7,11 +7,13 @@
         <div class="selection-to-choose">
             <h3>To Select</h3>
             <button (click)="fetchSets()">fetch sets</button>
+            <qisapp-word-selector-special (selectAmount)="selectAmount($event)"></qisapp-word-selector-special>
             <qisapp-word-selector-sets [entities]="vm.entities" (setSelection)="selectSet($event)"></qisapp-word-selector-sets>
         </div>
         
         <div class="selection-choosen">
             <h3>Selected</h3>
+       
             <!-- <qisapp-word-selector-selection></qisapp-word-selector-selection> -->
             <ul>
                 <li *ngFor="let q of vm.selectedQuestions">

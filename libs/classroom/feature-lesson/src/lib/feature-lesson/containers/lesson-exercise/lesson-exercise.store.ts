@@ -69,7 +69,19 @@ export class LessonExerciseStore extends ComponentStore<State> {
     previousQuestion$ = this.select(
         this.previousQuestionId$,
         this.questions$,
-        (id, questions) => questions.find(q => q.id === id) 
+        this.previousPhrase$,
+        (id, questions, previousPhrase) => {
+            const question = questions.find(q => q.id === id)
+
+            if(!question){
+                return undefined
+            }
+            
+            return {
+                ...question,
+                result: this.engine.compareAnswers(previousPhrase, question.secondValue)
+            }
+        }
     )
 
     vm$ = this.select(
@@ -121,7 +133,6 @@ export class LessonExerciseStore extends ComponentStore<State> {
                     })
 
                     if(!newState.toGuess.length){
-                        console.log('FInish from phrase guess')
                     }
                 }else{
                     this.patchState({
@@ -150,7 +161,6 @@ export class LessonExerciseStore extends ComponentStore<State> {
             ),
             filter(([toGuess, guessed, lessonId]) => !toGuess.length && !!guessed.length ),
             tap(([toGuess, guessed, lessonId]) => {
-                console.log('FINISH')
             }),
             switchMap(([toGuess, guessed, lessonId]) => this.repository.createLessonStatus(lessonId, {
                 lessonId,
@@ -218,7 +228,6 @@ export class LessonExerciseStore extends ComponentStore<State> {
             }).pipe(
                 tapResponse(
                     (response: any) => {
-                        console.log('resopnse', response)
                     },
                     () => {}
                 )

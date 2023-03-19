@@ -114,7 +114,6 @@ export class WordSelectorStore extends ComponentStore<State> {
             }).pipe(
                 tapResponse(
                     (response: any) => {
-                        console.log('response', response)
                         this.router.navigate(['/', 'classroom', 'lessons', response.id])
 
                     },
@@ -123,6 +122,28 @@ export class WordSelectorStore extends ComponentStore<State> {
             ),
             
             
+        )
+    })
+
+
+    readonly addQuestionsByTimeAmount = this.effect((amount$: Observable<number>) => {
+        return amount$.pipe(
+            tap(() => {
+            }),
+            switchMap((amount) => this.lessonRepository.fetchQuestionsByTimeAmount(amount).pipe(
+                tapResponse(
+                    (response: any) => {
+                        this.mergeSelectedQuestions(response.questions.map((q: any) => {
+                            return {
+                                ...q,
+                                tag: `special-time-amount-${q.id}`
+                            }
+                        }))
+                    },
+                    () => {
+
+                    })
+            ))
         )
     })
 

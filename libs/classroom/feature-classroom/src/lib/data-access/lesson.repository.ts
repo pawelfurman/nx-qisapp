@@ -16,4 +16,12 @@ export class LessonRepository {
     createLesson(data: any){
         return this.http.post(`http://localhost:3000/lessons`, data)
     }
+
+    fetchQuestionsByTimeAmount(amount: number){
+        return this.http.get(`http://localhost:3000/lessons/farthest`, {
+            params: {
+                amount
+            }
+        })
+    }
 }
