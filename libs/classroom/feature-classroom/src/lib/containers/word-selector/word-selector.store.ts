@@ -128,8 +128,7 @@ export class WordSelectorStore extends ComponentStore<State> {
 
     readonly addQuestionsByTimeAmount = this.effect((amount$: Observable<number>) => {
         return amount$.pipe(
-            tap(() => {
-            }),
+            tap(() => {}),
             switchMap((amount) => this.lessonRepository.fetchQuestionsByTimeAmount(amount).pipe(
                 tapResponse(
                     (response: any) => {

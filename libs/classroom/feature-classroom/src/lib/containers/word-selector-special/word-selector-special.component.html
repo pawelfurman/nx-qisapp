@@ -1,17 +1,4 @@
-<ng-container *ngIf="vm$ | async as vm">
-    <ul>
-        <li>
-            <div class="content">
-                The long time without repetition: 
-                <input type="text" [ngModel]="vm.amount" (ngModelChange)="changeAmount($event)">
-            </div>
-    
-            <button (click)="selectLongestWithoutRepetition()">
-                <!-- <i *ngIf="!entity.isAdded" class="fa fa-arrow-right"></i>
-                <i *ngIf="entity.isAdded" class="fa fa-arrow-left"></i> -->
-                <i class="fa fa-arrow-right"></i>
-            </button>
-        </li>
-    </ul>
-</ng-container>
 
+    <ul>
+        <li qisapp-word-selector-special-long-ago></li>
+    </ul>

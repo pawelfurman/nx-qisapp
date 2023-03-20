@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http'
 import { EventEmitter, inject } from '@angular/core'
-import {ComponentStore, tapResponse} from '@ngrx/component-store'
-import { from, map, mergeMap, Observable, of, switchMap, tap, toArray, withLatestFrom } from 'rxjs'
+import {ComponentStore} from '@ngrx/component-store'
+import { Observable, tap, withLatestFrom } from 'rxjs'
 import { LessonRepository } from '../../data-access/lesson.repository'
 import { WordSelectorStore } from '../word-selector/word-selector.store'
+import { WordSelectorSpecialLongAgoVm } from './lesson-summary.vm'
 
 
 type State = {
@@ -20,6 +20,7 @@ export class LessonSummaryStore extends ComponentStore<State> {
 
     wordSelectorStore = inject(WordSelectorStore)
     lessonRepository = inject(LessonRepository)
+    view = inject(WordSelectorSpecialLongAgoVm)
 
     startLessonEmitter: EventEmitter<any> = new EventEmitter()
 
@@ -59,6 +60,13 @@ export class LessonSummaryStore extends ComponentStore<State> {
                 })
             })
             
+        )
+    })
+
+
+    readonly onQuestionChange = this.effect(() => {
+        return this.wordSelectorStore.selectedQuestions$.pipe(
+            tap((questions) => this.view.wordsAmount.set(questions.length))
         )
     })
 

@@ -2,6 +2,8 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { CommonModule } from '@angular/common';
 import { WordSelectorSetsStore } from './word-selector-sets.store';
 import { WordSelectorSetsItemComponent } from '../word-selector-sets-item/word-selector-sets-item.component';
+import { SetsFetchStore } from '../../store/sets-fetch.store';
+import { WordSelectorSetsVm } from './word-selector-sets.vm';
 
 @Component({
   selector: 'qisapp-word-selector-sets',
@@ -12,24 +14,20 @@ import { WordSelectorSetsItemComponent } from '../word-selector-sets-item/word-s
   ],
   templateUrl: './word-selector-sets.component.html',
   styleUrls: ['./word-selector-sets.component.scss'],
+  providers: [WordSelectorSetsVm, WordSelectorSetsStore]
 
 })
 export class WordSelectorSetsComponent implements OnInit {
   
+  setsFetchStore = inject(SetsFetchStore)
   store = inject(WordSelectorSetsStore)
-  vm$ = this.store.vm$
+  view = inject(WordSelectorSetsVm)
 
-
-  @Input() set entities(entities: any[]){
-    this.store.patchState({entities})
-  }
+  vm = this.view.vm
 
   @Output() setSelection: EventEmitter<any> = new EventEmitter()
 
-
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   selectSet(setId: number){
     this.setSelection.emit(setId)
@@ -37,5 +35,9 @@ export class WordSelectorSetsComponent implements OnInit {
 
   trackById(index:number, entity: any){
     return entity.id
+  }
+
+  fetchSets(){
+    this.setsFetchStore.fetch()
   }
 }

@@ -113,7 +113,7 @@ export class LessonExerciseStore extends ComponentStore<State> {
             }),
             switchMap(() => this.phrase$.pipe(
                 take(1),
-                filter(phrase => !!phrase.length)
+                // filter(phrase => !!phrase.length)
             )),
             withLatestFrom(
                 this.currentQuestion$,
@@ -124,6 +124,7 @@ export class LessonExerciseStore extends ComponentStore<State> {
             ),
             tap(([phrase, question, toGuess, guessed, answerIncrement, lessonId]) => {
                 const correctness = this.engine.compareAnswers(phrase, question.secondValue)
+                console.log('phrase', phrase, correctness)
                 if(correctness){
                     this.engine.setupCorrectAnswer(toGuess, guessed)
 

@@ -3,7 +3,9 @@ import { inject } from '@angular/core'
 import {ComponentStore, tapResponse} from '@ngrx/component-store'
 import { Observable, switchMap, tap } from 'rxjs'
 import { LessonRepository } from '../../data-access/lesson.repository'
+import { SetsFetchStore } from '../../store/sets-fetch.store'
 import { WordSelectorStore } from '../word-selector/word-selector.store'
+import { WordSelectorSetsVm } from './word-selector-sets.vm'
 
 
 type State = {
@@ -24,6 +26,8 @@ export class WordSelectorSetsStore extends ComponentStore<State> {
     http = inject(HttpClient)
     lessonRepository = inject(LessonRepository)
     wordSelectorStore = inject(WordSelectorStore)
+    setsFetchStore = inject(SetsFetchStore)
+    view = inject(WordSelectorSetsVm)
 
     constructor(){
         super(initialState)
@@ -32,7 +36,7 @@ export class WordSelectorSetsStore extends ComponentStore<State> {
     readonly entities$ = this.select(state => state.entities)
 
     vm$ = this.select(
-        this.entities$,
+        this.setsFetchStore.entities$,
         this.wordSelectorStore.selectedSets$,
         (entities, selectedSets) => {
             return {
@@ -48,11 +52,19 @@ export class WordSelectorSetsStore extends ComponentStore<State> {
     )
 
 
-    selectSet = this.effect((setId$: Observable<number>) => {
-        return setId$.pipe(
-            tap((setId => {
-                // this.wordSelectorStore.addSet(setId)
-            }))
+    onEntitiesFetch = this.effect((trigger$: Observable<any[]>) => {
+        return this.setsFetchStore.entities$.pipe(
+            tap((response) => {
+                this.view.entities.set([...response])
+            })
+        )
+    })
+
+    onSetsSelect = this.effect((trigger$: Observable<any[]>) => {
+        return this.wordSelectorStore.selectedSets$.pipe(
+            tap((selectedSets: any) => {
+                this.view.selectedSets.set([...selectedSets])
+            })
         )
     })
 }

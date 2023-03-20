@@ -13,3 +13,30 @@ button{
     padding: 5px 20px;
     
 }
+
+input {
+    height: 28px;
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    width: 40px;
+    text-align: center;
+
+}
+
+.summary{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    &-modifier{
+        font-size: 14px;
+        padding-right: 20px;
+        margin-right: 20px;
+    }
+
+    &-starter{
+        padding-right: 20px;
+
+    }
+
+}

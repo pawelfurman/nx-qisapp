@@ -16,7 +16,6 @@ import { SetsFetchStore } from './store/sets-fetch.store';
   ],
   templateUrl: './feature-classroom.component.html',
   styleUrls: ['./feature-classroom.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     ExerciseEngineService,
     LessonRepository,

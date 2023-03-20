@@ -7,6 +7,10 @@
         display: flex;
         justify-content: space-between;
         padding: 5px 0;
+
+        &:hover{
+            background: lighten(lightgray, 10%);
+        }
     }
 
     button{

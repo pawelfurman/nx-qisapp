@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LessonSummaryStore } from './lesson-summary.store';
 import { FormsModule } from '@angular/forms';
+import { WordSelectorSpecialLongAgoVm } from './lesson-summary.vm';
 
 @Component({
   selector: 'qisapp-lesson-summary',
@@ -9,25 +10,22 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
   templateUrl: './lesson-summary.component.html',
   styleUrls: ['./lesson-summary.component.scss'],
-  providers: [LessonSummaryStore]
+  providers: [LessonSummaryStore, WordSelectorSpecialLongAgoVm]
 })
 export class LessonSummaryComponent {
 
   store = inject(LessonSummaryStore)
+  view = inject(WordSelectorSpecialLongAgoVm)
 
-  vm$ = this.store.vm$
+  vm = this.view.vm
 
-  @Output() lessonStart = this.store.startLessonEmitter
+  @Output() lessonStart: EventEmitter<any> = new EventEmitter()
 
   startLesson(){
-    this.store.startLesson()
+    const {repetition, answerIncrement} = this.view.vm()
+    this.lessonStart.emit({
+      repetition, answerIncrement
+    })
   }
 
-  updateRepetition(repetition: number){
-    this.store.patchState({repetition })
-  }
-
-  updateAnswerIncrement(answerIncrement: number){
-    this.store.patchState({answerIncrement })
-  }
 }

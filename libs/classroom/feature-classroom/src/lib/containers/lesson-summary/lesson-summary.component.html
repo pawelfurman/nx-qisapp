@@ -1,11 +1,17 @@
-<ng-container *ngIf="vm$ | async as vm">
-    sets: {{vm.selectedSets.length}}
-    <br>
-    words: {{vm.selectedQuestions.length}}
-    <br>
-    repetition: <input type="number" (ngModelChange)="updateRepetition($event)" [ngModel]="vm.repetition">
-    <br>
-    answerIncrement: <input type="number" (ngModelChange)="updateAnswerIncrement($event)" [ngModel]="vm.answerIncrement">
-    <br>
-    <button (click)="startLesson()">Create</button>
+
+<ng-container *ngIf="vm() as vm">
+    <div class="summary">
+        
+        <span class="summary-modifier">
+            repetition: <input type="number" (ngModelChange)="view.repetition.set($event)" [ngModel]="vm.repetition">
+        </span>
+        <span class="summary-modifier">
+            increment: <input type="number" (ngModelChange)="view.answerIncrement.set($event)" [ngModel]="vm.answerIncrement">
+        </span>
+        <span class="summary-starter">
+            <button (click)="startLesson()">Create for {{vm.wordsAmount}} questions</button>
+        </span>
+        <br>
+    </div>
+
 </ng-container>

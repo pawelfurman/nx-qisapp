@@ -1,5 +1,7 @@
 
-<ng-container *ngIf="vm$ | async as vm">
+<ng-container *ngIf="vm() as vm">
+
+    <button (click)="fetchSets()">Fetch Sets</button>
     <ul class="sets-list">
         <ng-container *ngFor="let entity of vm.entities; trackBy: trackById">
             <li 

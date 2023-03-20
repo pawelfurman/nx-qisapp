@@ -23,8 +23,8 @@ import { WordSelectorSpecialComponent } from '../word-selector-special/word-sele
   ],
   templateUrl: './word-selector.component.html',
   styleUrls: ['./word-selector.component.scss'],
-  providers: [WordSelectorStore, WordSelectorSetsStore, SetsFetchStore]
-  //@TODO - INCORRECT - WordSelectorSetsStore shouldnt be provided here
+  providers: [WordSelectorStore, SetsFetchStore]
+
 })
 export class WordSelectorComponent {
 
@@ -36,7 +36,7 @@ export class WordSelectorComponent {
 
 
   fetchSets(){
-    this.setsFetchStore.fetch()
+    // this.setsFetchStore.fetch()
   }
 
   selectSet(setId: number){
@@ -49,11 +49,5 @@ export class WordSelectorComponent {
     // this.router.navigate(['/', 'classroom', 'lesson'])
 
     this.store.startLesson(data)
-  }
-
-
-  selectAmount(amount: number){
-    this.store.addQuestionsByTimeAmount(amount)
-
   }
 }
