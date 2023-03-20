@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WordSelectorSelectionStore } from './word-selector-selection.store';
 import { WordSelectorSelectionVm } from './word-selector-selection.vm';
@@ -12,9 +12,17 @@ import { WordSelectorSelectionVm } from './word-selector-selection.vm';
   providers: [WordSelectorSelectionStore, WordSelectorSelectionVm]
 })
 export class WordSelectorSelectionComponent {
+
+  @Output() removeQuestion: EventEmitter<number> = new EventEmitter()
+
   store = inject(WordSelectorSelectionStore)
   view = inject(WordSelectorSelectionVm)
 
   // vm$ = this.store.vm$
   vm = this.view.vm
+
+
+  remove(questionId: number){
+    this.removeQuestion.emit(questionId)
+  }
 }

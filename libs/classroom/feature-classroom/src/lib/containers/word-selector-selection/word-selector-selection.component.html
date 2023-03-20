@@ -6,9 +6,14 @@
 <ng-container *ngIf="vm() as vm">
     <ul class="sets-list">
         <li *ngFor="let entity of vm.questions" class="sets-list-item">
-            {{entity.firstValue}} - {{entity.secondValue}}
-            <br>
-            <small>{{entity.tag}}</small>
+            <div class="sets-list-item-content">
+                {{entity.firstValue}} - {{entity.secondValue}}
+                <br>
+                <small>{{entity.tag}}</small>
+            </div>
+            <div class="sets-list-item-actions">
+                <button (click)="remove(entity.id)"><i class="fa fa-times"></i></button>
+            </div>
         </li>
     </ul>
 </ng-container>

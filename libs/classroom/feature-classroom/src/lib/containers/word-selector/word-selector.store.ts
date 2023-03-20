@@ -68,6 +68,10 @@ export class WordSelectorStore extends ComponentStore<State> {
         return {...state, questions: [...state.selectedQuestions], selectedQuestions: []}
     })
 
+    readonly removeQuestion = this.updater((state, id: number) => {
+        return {...state, selectedQuestions: state.selectedQuestions.filter((sq: any) => sq.id !== id)}
+    })
+
 
 
     readonly addQuestionsBySetId = this.effect((setId$: Observable<number>) => {

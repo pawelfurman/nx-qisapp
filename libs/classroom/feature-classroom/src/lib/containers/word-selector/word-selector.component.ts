@@ -50,4 +50,8 @@ export class WordSelectorComponent {
 
     this.store.startLesson(data)
   }
+
+  removeQuestion(id: number){
+    this.store.removeQuestion(id)
+  }
 }
