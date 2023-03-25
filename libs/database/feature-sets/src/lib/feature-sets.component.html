@@ -1,14 +1,4 @@
 <p>List of stes added to db</p>
 <a [routerLink]="['/', 'database', 'questions']">Questions</a>
-
-<ng-container *ngIf="vm$ | async as vm">
-
-    <table>
-        <tr *ngFor="let entity of vm.entities">
-            <td></td>
-            <td>{{entity.name}}</td>
-            <td>{{entity.description}}</td>
-        </tr>
-    </table>
-
-</ng-container>
+<qisapp-sets-creation-form></qisapp-sets-creation-form>
+<qisapp-sets-list></qisapp-sets-list>

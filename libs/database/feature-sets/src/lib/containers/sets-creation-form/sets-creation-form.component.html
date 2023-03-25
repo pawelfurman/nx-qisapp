@@ -1,0 +1,10 @@
+<ng-container *ngIf="vm() as vm">
+    <form #form="ngForm" novalidate (ngSubmit)="createSet()">
+        <input autocomplete="off" #name="ngModel" required minlength="2"  type="text" name="name" [ngModel]="vm.name" (ngModelChange)="view.name.set($event)" >
+        <input autocomplete="off" #description="ngModel" required minlength="2" type="text" name="description" [ngModel]="vm.description" (ngModelChange)="view.description.set($event)">
+
+        <button type="submit" [disabled]="!form.valid">Create</button>
+        <button type="button" (click)="reset(form)">Reset</button>
+        <i class="fa fa-spin fa-spinner" *ngIf="vm.loading"></i>
+    </form>
+</ng-container>

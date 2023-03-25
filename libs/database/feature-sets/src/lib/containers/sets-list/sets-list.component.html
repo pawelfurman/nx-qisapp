@@ -1,0 +1,13 @@
+<ng-container *ngIf="vm() as vm">
+    <i class="fa fa-spin fa-spinner" *ngIf="vm.loading"></i>
+    <table>
+        <tr *ngFor="let entity of vm.entities">
+            <td></td>
+            <td>{{entity.name}}</td>
+            <td>{{entity.description}}</td>
+            <td>
+                <qisapp-sets-list-delete [setId]="entity.id"></qisapp-sets-list-delete>
+            </td>
+        </tr>
+    </table>
+</ng-container>

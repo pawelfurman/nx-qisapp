@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
+import { SetRepository } from "./data-access/sets.repository";
 
 
 type State = {
@@ -14,6 +15,7 @@ const initialState: any = {
 export class FeatureSetsStore extends ComponentStore<State> {
 
     http = inject(HttpClient)
+    repository = inject(SetRepository)
 
     constructor(){
         super(initialState)
@@ -33,9 +35,8 @@ export class FeatureSetsStore extends ComponentStore<State> {
 
 
     fetchSets = this.effect(() => {
-        return this.http.get<any[]>(`http://localhost:3000/sets`).pipe(
+        return this.repository.fetchSets().pipe(
             tapResponse((entities) => {
-                console.log('response1', entities)
                 this.patchState({entities})
             }, () => {})
         )
