@@ -3,25 +3,31 @@ import { inject } from '@angular/core'
 import {ComponentStore, tapResponse} from '@ngrx/component-store'
 import { filter, from, map, mergeMap, Observable, of, switchMap, take, tap, toArray, withLatestFrom } from 'rxjs'
 import { QuestionsRepository } from '../../data-acccess/questions.repository'
+import { QuestionsFetchStore } from '../../store/questions-fetch.store'
+import { QuestionsSetsCreateFormVm } from './question-sets-create-form.vm'
 
 
 
 
 type State = {
+    setId: any,
     entities: any[],
     loading: boolean,
     loaded: boolean
 }
 
 const initialState: State = {
+    setId: '',
     entities: [],
     loading: false,
     loaded: false
 }
 
-export class QuestionListStore extends ComponentStore<State> {
+export class QuestionSetsListStore extends ComponentStore<State> {
 
     repository = inject(QuestionsRepository)
+    questionsFetchStore = inject(QuestionsFetchStore)
+    view = inject(QuestionsSetsCreateFormVm)
 
     constructor(){
         super(initialState)
@@ -31,8 +37,9 @@ export class QuestionListStore extends ComponentStore<State> {
     entities$ = this.select(state => state.entities)
     loading$ = this.select(state => state.loading)
     loaded$ = this.select(state => state.loaded)
+    setId$ = this.select(state => state.setId)
 
-    vm$ = this.select(
+    model$ = this.select(
         this.entities$,
         this.loading$,
         this.loaded$,
@@ -42,16 +49,17 @@ export class QuestionListStore extends ComponentStore<State> {
                 loading,
                 loaded
             }
-        }
+        }, {debounce: true}
     )
 
 
-    readonly fetchQuestions = this.effect((trigger$: Observable<void>) => {
-        return trigger$.pipe(
-            tap(() => {
+    readonly createQuestion = this.effect((formDate$: Observable<any>) => {
+        return formDate$.pipe(
+            tap((formDate) => {
                 this.patchState({loading: true})
             }),
-            switchMap(() => this.repository.getQuestions().pipe(
+            withLatestFrom(this.setId$),
+            switchMap(([formData, setId]) => this.repository.createQuestion(setId, formData).pipe(
                 tapResponse(
                     (entities) => {
                         this.patchState({
@@ -63,34 +71,20 @@ export class QuestionListStore extends ComponentStore<State> {
                     () => {
                         this.patchState({loading: false, loaded: false})
                     }
-                )
-            ))
+                ),
+                map((data: any) => setId)
+            )),
+            tap((setId: any) => {
+                this.questionsFetchStore.fetchQuestions(setId)
+            })
         )
     })
+  
 
-
-    readonly markQuestionAsRemoved = this.updater((state, id: any) => {
-        return {...state, entities: state.entities.map((e) => {
-            
-            if(e.id === id){
-                return {...e, removed: true}
-            }
-
-            return e
-        })}
-    })
-
-    readonly removeQuestion = this.effect((id$: Observable<any>) => {
-
-        return id$.pipe(
-            switchMap((id) => this.repository.deleteQuestion(id).pipe(
-                tapResponse(
-                    () => {
-                        this.markQuestionAsRemoved(id)
-                    },
-                    () => {}
-                )
-            ))
+    readonly syncView = this.effect(() => {
+        return this.model$.pipe(
+            tap((model: any) => {
+            })
         )
     })
 

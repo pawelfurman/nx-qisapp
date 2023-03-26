@@ -1,0 +1,100 @@
+<ng-container *ngIf="vm() as vm">
+    <form #form="ngForm" novalidate (ngSubmit)="createQuestion()">
+        <div class="form">
+            <div class="form-col">
+                <input
+                    type="text"
+                    autocomplete="off"
+                    name="firstValue"
+                    required
+                    #name="ngModel"
+                    [ngModel]="view.firstValue()"
+                    (ngModelChange)="view.firstValue.set($event)"    
+                    placeholder="First Value"
+                >
+
+                <br>
+
+                <input
+                    type="text"
+                    autocomplete="off"
+                    name="firstValueCollocation"
+                    required
+                    #name="ngModel"
+                    [ngModel]="view.firstValueCollocation()"
+                    (ngModelChange)="view.firstValueCollocation.set($event)"  
+                    placeholder="First Value Collocation"  
+                >
+                
+                <br>
+
+                <input
+                    type="text"
+                    autocomplete="off"
+                    name="firstValueUsage"
+                    required
+                    #name="ngModel"
+                    [ngModel]="view.firstValueUsage()"
+                    (ngModelChange)="view.firstValueUsage.set($event)"
+                    placeholder="First Value Usage" 
+                >
+            </div>
+            <div class="form-col">
+                <input
+                type="text"
+                autocomplete="off"
+                name="secondValue"
+                required
+                #name="ngModel"
+                [ngModel]="view.secondValue()"
+                (ngModelChange)="view.secondValue.set($event)"
+                placeholder="Second Value"
+            >
+
+            <br>
+
+            <input
+                type="text"
+                autocomplete="off"
+                name="secondValueCollocation"
+                required
+                #name="ngModel"
+                [ngModel]="view.secondValueCollocation()"
+                (ngModelChange)="view.secondValueCollocation.set($event)" 
+                placeholder="Second Value Collocation"  
+            >
+            
+            <br>
+
+            <input
+                type="text"
+                autocomplete="off"
+                name="secondValueUsage"
+                required
+                #name="ngModel"
+                [ngModel]="view.secondValueUsage()"
+                (ngModelChange)="view.secondValueUsage.set($event)"
+                placeholder="Second Value Usage"    
+            >
+            </div>
+        </div>
+        <div class="submit">
+            <button type="button">Reset</button>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    
+</ng-container>
+
+<!-- 
+    <ng-container *ngIf="vm() as vm">
+    <form #form="ngForm" novalidate (ngSubmit)="createSet()">
+        <input autocomplete="off" #name="ngModel" required minlength="2"  type="text" name="name" [ngModel]="vm.name" (ngModelChange)="view.name.set($event)" >
+        <input autocomplete="off" #description="ngModel" required minlength="2" type="text" name="description" [ngModel]="vm.description" (ngModelChange)="view.description.set($event)">
+
+        <button type="submit" [disabled]="!form.valid">Create</button>
+        <button type="button" (click)="reset(form)">Reset</button>
+        <i class="fa fa-spin fa-spinner" *ngIf="vm.loading"></i>
+    </form>
+</ng-container>
+ -->

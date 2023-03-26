@@ -1,0 +1,12 @@
+<ng-container *ngIf="vm() as vm">
+
+    <table>
+        <tr *ngFor="let entity of vm.entities">
+            <td>{{entity.id}}</td>
+            <td>{{entity.firstValue}} - {{entity.secondValue}}</td>
+            <td>
+                <button (click)="deleteQuestion(entity.id)"><i class="fa fa-times"></i></button>
+            </td>
+        </tr>
+    </table>
+</ng-container>

@@ -80,7 +80,6 @@ export class SetsListDeleteStore extends ComponentStore<State> {
                 this.patchState({loading: false})
             }),
             catchError((error) => {
-                console.log(error)
                 this.patchState({loading: false})
                 return of(error)
             })

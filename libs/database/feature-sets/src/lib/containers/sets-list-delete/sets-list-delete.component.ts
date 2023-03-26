@@ -24,7 +24,6 @@ export class SetsListDeleteComponent {
 
 
   removeSet(setId: number){
-    console.log('revmeo ', setId)
     this.store.removeSet(setId)
   }
 }

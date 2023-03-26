@@ -62,7 +62,6 @@ export class SetsCreationFromStore extends ComponentStore<State> {
     readonly createSet = this.effect((data$: Observable<any>) => {
         return data$.pipe(
             tap((data) => {
-                console.log('data', data)
                 this.view.loading.set(true)
             }),
             delay(1000),
