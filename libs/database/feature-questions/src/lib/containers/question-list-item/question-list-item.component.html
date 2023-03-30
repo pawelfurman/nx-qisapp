@@ -1,0 +1,32 @@
+<ng-container *ngIf="vm$ | async as vm">
+
+    <td [attr.removed]="vm.removed || null">{{entity.id}}</td>
+    <td [attr.removed]="vm.removed || null">
+        <span class="value">
+            <input [disabled]="vm.removed" type="text" [(ngModel)]="entity.firstValue">
+        </span>
+        <span class="collocation">
+            <input [disabled]="vm.removed" type="text" [(ngModel)]="entity.firstValueCollocation">
+        </span>
+        <span class="usage">
+            <input [disabled]="vm.removed" type="text" [(ngModel)]="entity.firstValueUsage">
+        </span>
+    </td>
+    <td [attr.removed]="vm.removed || null">
+        <span class="value">
+            <input [disabled]="vm.removed" type="text" [(ngModel)]="entity.secondValue">
+        </span>
+        <span class="collocation">
+            <input [disabled]="vm.removed" type="text" [(ngModel)]="entity.secondValueCollocation">
+        </span>
+        <span class="usage">
+            <input [disabled]="vm.removed" type="text" [(ngModel)]="entity.secondValueUsage">
+        </span>
+    </td>
+    <td [attr.removed]="vm.removed || null">{{entity.createdAt | date}}</td>
+    <td [attr.removed]="vm.removed || null">{{entity.updatedAt | date}}</td>
+    <td [attr.removed]="vm.removed || null">
+        <button (click)="updateQuestion(entity)"><i class="fa fa-save"></i></button>
+        <button (click)="removeQuestion(entity)"><i class="fa fa-times"></i></button>
+    </td>
+</ng-container>

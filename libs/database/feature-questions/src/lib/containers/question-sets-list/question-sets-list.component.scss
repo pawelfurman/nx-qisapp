@@ -1,0 +1,38 @@
+table{
+    margin-top: 20px;
+    border-collapse: collapse;
+
+    width: 100%;
+
+    th{
+        text-align: left;
+        padding: 5px 10px;
+    }
+
+    td{
+        border-bottom: 1px solid lightgray;
+        padding: 5px 10px;
+        text-align: left;
+    }
+
+    input{
+        background-color: transparent;
+        border: none;
+        outline: none;
+        padding: 2px;
+        width: 100%;
+
+        &:focus{
+            background: lightcyan
+        }
+    }
+
+    button{
+        margin-right: 10px;
+    }
+
+    .value,.collocation,.usage{
+        display: block;
+    }
+
+}

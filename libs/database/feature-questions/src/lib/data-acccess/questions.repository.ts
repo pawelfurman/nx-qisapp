@@ -20,4 +20,9 @@ export class QuestionsRepository {
     createQuestion(setId: number, data: Partial<any>){
         return this.http.post<any>(`http://localhost:3000/sets/${setId}/questions`, data)
     }
+
+    updateQuestion(setId: number, questionId: number, data: Partial<any>){
+        return this.http.put<any>(`http://localhost:3000/sets/${setId}/questions/${questionId}`, data);
+    }
+
 }

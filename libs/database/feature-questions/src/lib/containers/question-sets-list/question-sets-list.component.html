@@ -1,10 +1,41 @@
 <ng-container *ngIf="vm() as vm">
 
     <table>
+        <tr>
+            <th>ID</th>
+            <th>Word</th>
+            <th>Word</th>
+            <th>Created</th>
+            <th>Updated</th>
+        </tr>
         <tr *ngFor="let entity of vm.entities">
             <td>{{entity.id}}</td>
-            <td>{{entity.firstValue}} - {{entity.secondValue}}</td>
             <td>
+                <span class="value">
+                    <input type="text" [(ngModel)]="entity.firstValue">
+                </span>
+                <span class="collocation">
+                    <input type="text" [(ngModel)]="entity.firstValueCollocation">
+                </span>
+                <span class="usage">    
+                    <input type="text" [(ngModel)]="entity.firstValueUsage">
+                </span>        
+            </td>
+            <td>
+                <span class="value">
+                    <input type="text" [(ngModel)]="entity.secondValue">
+                </span>
+                <span class="collocation">
+                    <input type="text" [(ngModel)]="entity.secondValueCollocation">
+                </span>
+                <span class="usage">    
+                    <input type="text" [(ngModel)]="entity.secondValueUsage">
+                </span>
+            </td>
+            <td>{{entity.createdAt | date}}</td>
+            <td>{{entity.updatedAt | date}}</td>
+            <td>
+                <button (click)="updateQuestion(entity)"><i class="fa fa-save"></i></button>
                 <button (click)="deleteQuestion(entity.id)"><i class="fa fa-times"></i></button>
             </td>
         </tr>

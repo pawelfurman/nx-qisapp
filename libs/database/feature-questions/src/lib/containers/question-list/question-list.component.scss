@@ -17,3 +17,13 @@ ul{
         }
     }
 }
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+
+    td, th{
+        padding: 2px 5px;
+        text-align: left;
+    }
+}

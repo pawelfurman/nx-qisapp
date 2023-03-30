@@ -1,0 +1,32 @@
+:host{
+    padding: 15px 0;
+}
+
+td{
+    padding: 10px 0;
+    border-bottom: 1px solid lightgray;
+
+    &[removed]{
+        background: lightcoral;
+        color: gray;
+
+        input{
+            color: gray;
+        }
+    }
+}
+
+.value, .collocation, .usage{
+    display: block;
+}
+
+
+input{
+    background: transparent;
+    border: none;
+    outline: none;
+
+    &:focus{
+        background: lightcyan;
+    }
+}

@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuestionListStore } from './question-list.store';
 import { RouterModule } from '@angular/router';
+import { QuestionListItemComponent } from '../question-list-item/question-list-item.component';
 
 @Component({
   selector: 'qisapp-question-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, QuestionListItemComponent],
   templateUrl: './question-list.component.html',
   styleUrls: ['./question-list.component.scss'],
   providers: [QuestionListStore]

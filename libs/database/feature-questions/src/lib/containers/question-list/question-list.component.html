@@ -3,11 +3,24 @@
     <br>
 
     Total: <strong>{{vm.entities.length}}</strong>
-    <ul>
-        <li *ngFor="let entity of vm.entities" [attr.removed]="entity.removed || null">
-            <span>{{entity.id}} - {{entity.firstValue}} - {{entity.secondValue}} - <i>{{entity.createdAt | date}}</i></span>
-            <button [disabled]="entity.removed" (click)="remove(entity.id)">Remove</button>
-        </li>
-    </ul>
+    
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Word</th>
+            <th>Word</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Actions</th>
+        </tr>
+        <tr
+            qisapp-question-list-item
+            *ngFor="let entity of vm.entities"
+            [attr.removed]="entity.removed || null"
+            [entity]="entity"
+        >
+     
+        </tr>
+    </table>
 
 </ng-container>

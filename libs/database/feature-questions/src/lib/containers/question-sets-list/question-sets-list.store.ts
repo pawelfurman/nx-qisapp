@@ -88,13 +88,26 @@ export class QuestionSetsListStore extends ComponentStore<State> {
 
     readonly deleteQuestion = this.effect((questionId$: Observable<string>) => {
         return questionId$.pipe(
-            tap((questionId: any) => {
-            }),
+            tap((questionId: any) => {}),
             switchMap((questionId) => this.repository.deleteQuestion(questionId)),
             withLatestFrom(this.setId$),
             tap(([_, setId]) => {
                 this.questionsFetchStore.fetchQuestions(setId)
             })
+        )
+    })
+
+    readonly udateQuestion = this.effect((data$: Observable<any>) => {
+        return data$.pipe(
+            switchMap((q) => this.repository.updateQuestion(q.setId, q.id, q).pipe(
+                tapResponse(
+                    (response) => {
+                        console.log('response', response)
+                    },
+                    () => {}
+                )
+            )),
+               
         )
     })
 
