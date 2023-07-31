@@ -1,0 +1,16 @@
+
+<ng-container *ngIf="vm() as vm">
+    <div class="content">
+        <span class="content-title">
+            Select Random: 
+        </span>
+
+        <input type="number" [ngModel]="vm.amount" (ngModelChange)="changeAmount($event)">
+    </div>
+
+    <button (click)="selectRandom()" [disabled]="vm.disabled">
+        <i *ngIf="vm.loading" class="fa fa-spin fa-spinner"></i>
+        <i *ngIf="!vm.loading" class="fa fa-arrow-right"></i>
+    </button>
+
+</ng-container>

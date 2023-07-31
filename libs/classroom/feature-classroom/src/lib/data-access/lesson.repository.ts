@@ -24,4 +24,12 @@ export class LessonRepository {
             }
         })
     }
+
+    fetchQuestionsRandomly(amount: number){
+        return this.http.get(`http://localhost:3000/lessons/random`, {
+            params: {
+                amount
+            }
+        }) 
+    }
 }

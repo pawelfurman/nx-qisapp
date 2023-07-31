@@ -143,6 +143,7 @@ export class LessonExerciseStore extends ComponentStore<State> {
                 }
 
                 this.repository.createLessonStep(lessonId, {
+                    userAnswer: phrase,
                     lessonId,
                     correctness,
                     questionId: question.id
